@@ -1,0 +1,17 @@
+version: '3'
+services:
+  docker-port: 
+    restart: unless-stopped
+    image: bobrik/socat
+    container_name: docker-port
+    ports:
+      - 2375:2375
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: "TCP-LISTEN:2375,fork UNIX-CONNECT:/var/run/docker.sock"
+    networks:
+      - geochat_network
+
+networks:
+  geochat_network:
+    external: true
